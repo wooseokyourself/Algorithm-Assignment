@@ -75,9 +75,9 @@ public:
 
 void explore (graph& G, const int& idx, const int& dest, const int& k, weight& ret, path& p) {
     // pre-active
-    if (idx == dest) { // 현재노드가 dest라면 지금까지 탐색한 path로 ret값 갱신, path 폐기 및 탐색종료
-        ret = ret <= p.w ? ret : p.w;
-        p.set_remove_flag();
+    if (idx == dest) { // 현재노드가 dest라면
+        ret = ret <= p.w ? ret : p.w; // ret값 갱신
+        p.set_remove_flag(); // path 폐기
         return;
     }
 
@@ -97,9 +97,9 @@ void explore (graph& G, const int& idx, const int& dest, const int& k, weight& r
         int adj = G[idx][0].first;
         weight w = G[idx][0].second;
         p.add_path (w);
-        if (G[adj].get_short_len() + p.len <= k) // 이 조건이 아니라면 여기서 멈춰야한다
+        if (G[adj].get_short_len() + p.len <= k)
             explore (G, adj, dest, k, ret, p);
-        else {
+        else { // (adj로부터 dest까지의 가장 빠른 경로 + 현재 path의 길이) 가 k보다 크다면 탐색할 필요 없음
             p.set_remove_flag();
             return;
         }
@@ -131,7 +131,6 @@ void explore (graph& G, const int& idx, const int& dest, const int& k, weight& r
             paths.erase(itr++);
         }
     }
-
 }
 
 void dijkstra (graph& G, const int& dest) {
